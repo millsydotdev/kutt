@@ -7,8 +7,8 @@ const { CustomError } = require("../utils");
 const env = require("../env");
 
 const mailConfig = {
-  host: env.MAIL_HOST,
-  port: env.MAIL_PORT,
+  host: env.SMTP_HOST || env.MAIL_HOST,
+  port: env.SMTP_PORT || env.MAIL_PORT,
   secure: env.MAIL_SECURE,
   auth: env.MAIL_USER
     ? {

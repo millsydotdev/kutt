@@ -88,6 +88,8 @@ const spec = {
   CUSTOM_DOMAIN_USE_HTTPS: bool({ default: false }),
   JWT_SECRET: str({ devDefault: "securekey" }),
   MAIL_ENABLED: bool({ default: false }),
+  SMTP_HOST: str({ default: "" }),
+  SMTP_PORT: num({ default: 25 }),
   MAIL_HOST: str({ default: "" }),
   MAIL_PORT: num({ default: 587 }),
   MAIL_SECURE: bool({ default: false }),
