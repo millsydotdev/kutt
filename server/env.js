@@ -1,6 +1,7 @@
 require("dotenv").config();
 const { cleanEnv, num, str, bool } = require("envalid");
 const { readFileSync } = require("node:fs");
+const { URL } = require("url");
 
 const supportedDBClients = [
   "pg",
@@ -24,6 +25,38 @@ if (process.env.JWT_SECRET === "") {
 // if is started with the --production argument, then set NODE_ENV to production
 if (process.argv.includes("--production")) {
   process.env.NODE_ENV = "production";
+}
+
+// Parse DATABASE_URL if provided (Railway, Heroku, etc.)
+if (process.env.DATABASE_URL && !process.env.DB_HOST) {
+  try {
+    const dbUrl = new URL(process.env.DATABASE_URL);
+    process.env.DB_CLIENT = process.env.DB_CLIENT || (dbUrl.protocol === "postgres:" || dbUrl.protocol === "postgresql:" ? "pg" : "mysql2");
+    process.env.DB_HOST = dbUrl.hostname;
+    process.env.DB_PORT = dbUrl.port || "5432";
+    process.env.DB_NAME = dbUrl.pathname.slice(1); // Remove leading slash
+    process.env.DB_USER = dbUrl.username;
+    process.env.DB_PASSWORD = dbUrl.password;
+    // Railway/Heroku Postgres requires SSL
+    if (process.env.DB_SSL === undefined) {
+      process.env.DB_SSL = "true";
+    }
+  } catch (error) {
+    console.error("Failed to parse DATABASE_URL:", error.message);
+  }
+}
+
+// Parse REDIS_URL if provided (Railway, Heroku, etc.)
+if (process.env.REDIS_URL && !process.env.REDIS_HOST) {
+  try {
+    const redisUrl = new URL(process.env.REDIS_URL);
+    process.env.REDIS_ENABLED = "true";
+    process.env.REDIS_HOST = redisUrl.hostname;
+    process.env.REDIS_PORT = redisUrl.port || "6379";
+    process.env.REDIS_PASSWORD = redisUrl.password || "";
+  } catch (error) {
+    console.error("Failed to parse REDIS_URL:", error.message);
+  }
 }
 
 const spec = {

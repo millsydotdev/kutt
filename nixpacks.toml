@@ -1,0 +1,15 @@
+# Nixpacks configuration for Railway deployment
+# Learn more: https://nixpacks.com/docs/configuration/file
+
+[phases.setup]
+nixPkgs = ["nodejs_20", "openssl"]
+
+[phases.install]
+cmds = ["npm ci"]
+
+[phases.build]
+cmds = []
+
+[start]
+cmd = "npm run migrate && npm start"
+

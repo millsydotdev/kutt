@@ -18,6 +18,7 @@
 - [Donations and sponsors](#donations-and-sponsors)
 - [Setup](#setup)
 - [Docker](#docker)
+- [Railway Deployment](#railway-deployment)
 - [API](#api)
 - [Configuration](#configuration)
 - [Themes and customizations](#themes-and-customizations)
@@ -77,6 +78,21 @@ Various docker-compose configurations are available. Use `docker compose -f <fil
   - Required environment variables: `REDIS_ENABLED`, `DB_PASSWORD`, `DB_NAME`, `DB_USER`, `DB_PORT`
 
 Official Kutt Docker image is available on [Docker Hub](https://hub.docker.com/r/kutt/kutt).
+
+## Railway Deployment
+
+Deploy Kutt to Railway with PostgreSQL and Redis in just a few clicks:
+
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template)
+
+**[→ Quick Start Guide (5 minutes)](./RAILWAY_QUICK_START.md)** | **[→ Full Guide](./RAILWAY_DEPLOYMENT.md)**
+
+**Super Quick Setup:**
+1. Add PostgreSQL and Redis services in Railway
+2. Set environment variables: `JWT_SECRET=${{secret(32)}}`, `DATABASE_URL=${{DATABASE_URL}}`, `REDIS_URL=${{REDIS_URL}}`
+3. Deploy! Railway auto-generates secrets and links services automatically.
+
+See [RAILWAY_QUICK_START.md](./RAILWAY_QUICK_START.md) for copy-paste config or [railway-env-template.txt](./railway-env-template.txt) for the full template.
 
 ## API
 
